@@ -28,8 +28,8 @@
 		<div id="loadingicon" class="cssload-clock"></div>
 		
 		<div id="countries">
-			<a href="https://mapmind.org/nl"><img class="flag" src="img/nl.svg"/></a>
-			<a href="https://mapmind.org/no"><img class="flag" src="img/no.svg"/></a>
+			<a href="/nl"><img class="flag" src="img/nl.svg"/></a>
+			<a href="/no"><img class="flag" src="img/no.svg"/></a>
 		</div>
 		
 		<div id="controls">
@@ -146,7 +146,7 @@
 			
 			function loadShader(url, id, type) {
 				var request = new XMLHttpRequest();
-				request.open('POST', url, true);
+				request.open('GET', url, true);
 				request.overrideMimeType("text/plain");
 				request.addEventListener('load', function() {
 					var script = document.createElement('script');
@@ -322,7 +322,6 @@
 					switch(ahnState) {
 						case 'init': return ahnInit(extent, resolution, pixelRatio, size, projection); break;
 						case 'draw': if (ahn.getVisible() && ahnLoaded) return ahnDraw(extent, resolution, pixelRatio, size, projection); break;
-						case 'play': if (ahnLoaded && simulate) return ahnSimulate(extent, resolution, pixelRatio, size, projection); break;
 					}
 				}
 			});
@@ -344,7 +343,7 @@
 						anchor: [0.5, 0.5],
 						anchorXUnits: 'fraction',
 						anchorYUnits: 'fraction',
-						src: 'source.png'
+						src: 'img/source.png'
 					}))
 				})
 			});
@@ -360,7 +359,7 @@
 						anchor: [0.5, 0.5],
 						anchorXUnits: 'fraction',
 						anchorYUnits: 'fraction',
-						src: 'sink.png'
+						src: 'img/sink.png'
 					}))
 				})
 			});
@@ -387,7 +386,6 @@
 				width = size[0];
 				height = size[1];
 				bbox = map.getView().calculateExtent(size);
-				var pixels = (bbox[2]-bbox[0])*(bbox[3]-bbox[1]);
 				settings.view.coords = ol.proj.transform(map.getView().getCenter(), config.projection.epsg, 'EPSG:4326');
 				settings.view.zoom = map.getView().getZoom();
 				
@@ -474,8 +472,8 @@
 			}
 			function addSource() {
 				if (sourcesList.getFeatures().length<maxSources) {
-					gManipulate = true;
-					document.getElementById('map').style.cursor = "url('source.png') 18 18, auto";
+					ahnManipulate = true;
+					document.getElementById('map').style.cursor = "url('img/source.png') 18 18, auto";
 					map.on('click', clickSource);
 				}
 				else alert('cannot add more than ' + maxSources + ' sources!');
@@ -498,7 +496,7 @@
 			function addSink() {
 				if (sourcesList.getFeatures().length<maxSources) {
 					ahnManipulate = true;
-					document.getElementById('map').style.cursor = "url('sink.png') 18 18, auto";
+					document.getElementById('map').style.cursor = "url('img/sink.png') 18 18, auto";
 					map.on('click', clickSink);
 				}
 				else alert('cannot add more than ' + maxSinks + ' sinks!');
